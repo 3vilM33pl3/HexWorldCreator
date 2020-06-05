@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "HexWorldCreator",
+	"Description": "",
+	"Category": "Other",
+	"CreatedBy": "3vilM33pl3",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "HexWorldCreator",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
