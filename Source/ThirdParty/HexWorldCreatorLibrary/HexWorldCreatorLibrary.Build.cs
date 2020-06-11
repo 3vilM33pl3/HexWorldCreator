@@ -11,6 +11,7 @@ public class HexWorldCreatorLibrary : ModuleRules
         {
             PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "hex_client_lib.lib"));
             PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "libprotobuf.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "cares.lib"));
             PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "grpc++.lib"));
             PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "grpc.lib"));
             PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "gpr.lib"));
@@ -19,7 +20,16 @@ public class HexWorldCreatorLibrary : ModuleRules
             PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "crypto.lib"));
             PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "upb.lib"));
             PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "zlibstatic.lib"));
-            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "cares.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "absl_base.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "absl_int128.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "absl_raw_logging_internal.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "absl_throw_delegate.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "absl_time.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "absl_time_zone.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "absl_str_format_internal.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "absl_strings_internal.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "absl_strings.lib"));
+            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Win64", "Release", "absl_bad_optional_access.lib"));
 
             string[] paths = new string[]
             {

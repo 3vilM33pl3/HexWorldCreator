@@ -19,6 +19,7 @@ void FHexWorldCreatorModule::StartupModule()
 
 	hexagonClient = new HexagonClient("hexcloud-j6feiuh7aa-ue.a.run.app:443");
 	auto status = hexagonClient->ConnectToServer();
+
 	if(status != HEXWORLD_CONNECTION_READY)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Error connecting to server") );	
@@ -56,18 +57,40 @@ void FHexWorldCreatorModule::ShutdownModule()
 
 void FHexWorldCreatorModule::PluginButtonClicked()
 {
-	auto result = hexagonClient->GetHexagonRing(new Hexagon(0, 0, 0), 2);
-	std::ostringstream resultStream;
-	for(auto hex: result) {
-		resultStream << "[X: " << hex.X << ", Y: " << hex.Y << ", Z: " << hex.Z << "]\n";
+	auto connectionState = hexagonClient->GetConnectionState();
+	if(connectionState == hw_conn_state::HEXWORLD_CONNECTION_READY || connectionState == hw_conn_state::HEXWORLD_CONNECTION_IDLE)
+	{
+		auto result = hexagonClient->GetHexagonRing(new Hexagon(0, 0, 0), 2);
+		std::ostringstream resultStream;
+		for(auto hex: result) {
+			resultStream << "[X: " << hex.X << ", Y: " << hex.Y << ", Z: " << hex.Z << "]\n";
+		}
+
+		FString msg(resultStream.str().c_str());	
+		// Put your "OnButtonClicked" stuff here
+		FText DialogText = FText::FromString(*msg);
+		FMessageDialog::Open(EAppMsgType::Ok, DialogText);
+	} else
+	{
+		FText DialogText = FText::FromString("Unknown state");
+		switch (connectionState)
+		{
+			case HEXWORLD_CONNECTION_FATAL:
+	           DialogText = FText::FromString("Fatal");
+				break;
+			case HEXWORLD_CONNECTION_RETRY:
+				DialogText = FText::FromString("Retry");
+				break;
+			case HEXWORLD_CONNECTION_TIMEOUT:
+	        DialogText = FText::FromString("Timeout");
+				break;
+			case HEXWORLD_CONNECTING:
+	        DialogText = FText::FromString("Connecting");
+				break;
+		}
+		FMessageDialog::Open(EAppMsgType::Ok, DialogText);
 	}
-
-	FString msg(resultStream.str().c_str());	
-
-
-	// Put your "OnButtonClicked" stuff here
-	FText DialogText = FText::FromString(*msg);
-	FMessageDialog::Open(EAppMsgType::Ok, DialogText);
+	
 }
 
 void FHexWorldCreatorModule::RegisterMenus()
