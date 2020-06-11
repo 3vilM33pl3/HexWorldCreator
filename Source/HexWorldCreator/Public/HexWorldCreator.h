@@ -21,10 +21,8 @@ public:
 	void PluginButtonClicked();
 	
 private:
-
 	void RegisterMenus();
 	HexagonClient* hexagonClient;
-
-private:
 	TSharedPtr<class FUICommandList> PluginCommands;
+	void PlaceHexagons(Hexagon *hex) const;
 };

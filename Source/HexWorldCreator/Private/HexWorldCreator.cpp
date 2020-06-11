@@ -6,8 +6,12 @@
 
 #include "HexWorldCreatorStyle.h"
 #include "HexWorldCreatorCommands.h"
+#include "LevelEditorViewport.h"
 #include "Misc/MessageDialog.h"
+#include "Editor.h"
 #include "ToolMenus.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Engine/StaticMeshActor.h"
 
 static const FName HexWorldCreatorTabName("HexWorldCreator");
 
@@ -62,14 +66,23 @@ void FHexWorldCreatorModule::PluginButtonClicked()
 	{
 		auto result = hexagonClient->GetHexagonRing(new Hexagon(0, 0, 0), 2);
 		std::ostringstream resultStream;
+		
 		for(auto hex: result) {
 			resultStream << "[X: " << hex.X << ", Y: " << hex.Y << ", Z: " << hex.Z << "]\n";
+			PlaceHexagons(&hex);
 		}
+
+		
 
 		FString msg(resultStream.str().c_str());	
 		// Put your "OnButtonClicked" stuff here
 		FText DialogText = FText::FromString(*msg);
 		FMessageDialog::Open(EAppMsgType::Ok, DialogText);
+
+		
+
+
+		
 	} else
 	{
 		FText DialogText = FText::FromString("Unknown state");
@@ -116,6 +129,38 @@ void FHexWorldCreatorModule::RegisterMenus()
 			}
 		}
 	}
+}
+
+void FHexWorldCreatorModule::PlaceHexagons(Hexagon* hex) const
+{
+	PixelPoint px = ConvertAxialToPixelCoords(AxialCoordinates(hex->X, hex->Z), 1500);
+	FVector objectPosition(px.X, px.Y, 0);
+	FRotator objectRotation(0, 0, 0); //in degrees
+	FVector objectScale(1, 1, 1);
+	FTransform objectTrasform(objectRotation, objectPosition, objectScale);
+
+	UWorld* currentWorld = GEditor->GetEditorWorldContext().World();
+	ULevel * currentLevel = currentWorld->GetCurrentLevel();
+	UClass * staticMeshClass = AStaticMeshActor::StaticClass();
+
+	AActor * newActorCreated = GEditor->AddActor(currentLevel, staticMeshClass, objectTrasform, true, RF_Public | RF_Standalone | RF_Transactional);
+
+	UStaticMesh* HexAsset = Cast<UStaticMesh>(StaticLoadObject( UStaticMesh::StaticClass(), nullptr, *FName("/HexWorldCreator/HexagonBase.HexagonBase").ToString() ));
+
+	AStaticMeshActor * smActor = Cast<AStaticMeshActor>(newActorCreated);
+
+	smActor->GetStaticMeshComponent()->SetStaticMesh(HexAsset);
+	smActor->SetActorScale3D(objectScale);
+	// ID Name & Visible Name
+	// smActor->Rename(TEXT("MyStaticMeshInTheWorld" + hex->X + hex->Y + hex->Z));
+	// smActor->SetActorLabel("MyStaticMeshInTheWorld" + hex->X + hex->Y + hex->Z);
+
+	GEditor->EditorUpdateComponents();
+	smActor->GetStaticMeshComponent()->RegisterComponentWithWorld(currentWorld);
+	currentWorld->UpdateWorldComponents(true, false);
+	smActor->RerunConstructionScripts();
+
+	// GLevelEditorModeTools().MapChangeNotify();
 }
 
 #undef LOCTEXT_NAMESPACE
