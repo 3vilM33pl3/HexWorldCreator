@@ -133,6 +133,7 @@ void FHexWorldCreatorModule::RegisterMenus()
 
 void FHexWorldCreatorModule::PlaceHexagons(Hexagon* hex) const
 {
+	UE_LOG(LogTemp, Warning, TEXT("Placing Hexagon\n"));
 	PixelPoint px = ConvertAxialToPixelCoords(AxialCoordinates(hex->X, hex->Z), 1500);
 	FVector objectPosition(px.X, px.Y, 0);
 	FRotator objectRotation(0, 0, 0); //in degrees
