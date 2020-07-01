@@ -17,7 +17,7 @@ static const FName HexWorldCreatorTabName("HexWorldCreator");
 
 #define LOCTEXT_NAMESPACE "FHexWorldCreatorModule"
 
-void FHexWorldCreatorModule::StartupModule()
+void FHexWorldCreator::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 
@@ -39,13 +39,13 @@ void FHexWorldCreatorModule::StartupModule()
 
 	PluginCommands->MapAction(
 		FHexWorldCreatorCommands::Get().PluginAction,
-		FExecuteAction::CreateRaw(this, &FHexWorldCreatorModule::PluginButtonClicked),
+		FExecuteAction::CreateRaw(this, &FHexWorldCreator::PluginButtonClicked),
 		FCanExecuteAction());
 
-	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FHexWorldCreatorModule::RegisterMenus));
+	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FHexWorldCreator::RegisterMenus));
 }
 
-void FHexWorldCreatorModule::ShutdownModule()
+void FHexWorldCreator::ShutdownModule()
 {
 	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
 	// we call this function before unloading the module.
@@ -59,7 +59,7 @@ void FHexWorldCreatorModule::ShutdownModule()
 	FHexWorldCreatorCommands::Unregister();
 }
 
-void FHexWorldCreatorModule::PluginButtonClicked()
+void FHexWorldCreator::PluginButtonClicked()
 {
 	auto connectionState = hexagonClient->GetConnectionState();
 	if(connectionState == hw_conn_state::HEXWORLD_CONNECTION_READY || connectionState == hw_conn_state::HEXWORLD_CONNECTION_IDLE)
@@ -106,7 +106,7 @@ void FHexWorldCreatorModule::PluginButtonClicked()
 	
 }
 
-void FHexWorldCreatorModule::RegisterMenus()
+void FHexWorldCreator::RegisterMenus()
 {
 	// Owner will be used for cleanup in call to UToolMenus::UnregisterOwner
 	FToolMenuOwnerScoped OwnerScoped(this);
@@ -131,7 +131,7 @@ void FHexWorldCreatorModule::RegisterMenus()
 	}
 }
 
-void FHexWorldCreatorModule::PlaceHexagons(Hexagon* hex) const
+void FHexWorldCreator::PlaceHexagons(Hexagon* hex) const
 {
 	UE_LOG(LogTemp, Warning, TEXT("Placing Hexagon\n"));
 	PixelPoint px = ConvertAxialToPixelCoords(AxialCoordinates(hex->X, hex->Z), 1500);
@@ -166,4 +166,4 @@ void FHexWorldCreatorModule::PlaceHexagons(Hexagon* hex) const
 
 #undef LOCTEXT_NAMESPACE
 	
-IMPLEMENT_MODULE(FHexWorldCreatorModule, HexWorldCreator)
+IMPLEMENT_MODULE(FHexWorldCreator, HexWorldCreator)

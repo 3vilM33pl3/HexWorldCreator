@@ -9,7 +9,7 @@
 class FToolBarBuilder;
 class FMenuBuilder;
 
-class FHexWorldCreatorModule : public IModuleInterface
+class FHexWorldCreator : public IModuleInterface
 {
 public:
 
