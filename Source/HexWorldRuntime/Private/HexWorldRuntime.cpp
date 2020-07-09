@@ -6,12 +6,12 @@ DEFINE_LOG_CATEGORY(HexWorldRuntime);
 
 void FHexWorldRuntime::StartupModule()
 {
-	UE_LOG(HexWorldRuntime, Warning, TEXT("Orfeas module has started!"));
+	UE_LOG(HexWorldRuntime, Warning, TEXT("Hexagon World Runtime module has started!"));
 }
 
 void FHexWorldRuntime::ShutdownModule()
 {
-	UE_LOG(HexWorldRuntime, Warning, TEXT("Orfeas module has shut down"));
+	UE_LOG(HexWorldRuntime, Warning, TEXT("Hexagon World Runtime module has shut down"));
 	
 }
 
