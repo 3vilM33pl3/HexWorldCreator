@@ -29,11 +29,11 @@ struct PixelPoint {
     }
 };
 
-PixelPoint ConvertAxialToPixelCoords(const struct AxialCoordinates &ac, const int size) {
-    double x = size * (3.0 / 2.0 * ac.Q);
-    double y = size * (sqrt(3.0)/2.0 * ac.Q + sqrt(3.0) * ac.R);
-    return PixelPoint(x, y);
-}
+// PixelPoint ConvertAxialToPixelCoords(const struct AxialCoordinates &ac, const int size) {
+//     double x = size * (3.0 / 2.0 * ac.Q);
+//     double y = size * (sqrt(3.0)/2.0 * ac.Q + sqrt(3.0) * ac.R);
+//     return PixelPoint(x, y);
+// }
 
 
 

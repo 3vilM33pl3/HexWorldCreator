@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "HexWorldCreatorLibrary/include/hexworld/hex_client.h"
+#include "hex_client.h"
 #include "Modules/ModuleManager.h"
 
 class FToolBarBuilder;

@@ -131,10 +131,19 @@ void FHexWorldCreator::RegisterMenus()
 	}
 }
 
+PixelPoint ConvertAxialToPixelCoordsLocal(const struct AxialCoordinates &ac, const int size) {
+    double x = size * (3.0 / 2.0 * ac.Q);
+    double y = size * (sqrt(3.0)/2.0 * ac.Q + sqrt(3.0) * ac.R);
+    return PixelPoint(x, y);
+}
+
 void FHexWorldCreator::PlaceHexagons(Hexagon* hex) const
 {
 	UE_LOG(LogTemp, Warning, TEXT("Placing Hexagon\n"));
-	PixelPoint px = ConvertAxialToPixelCoords(AxialCoordinates(hex->X, hex->Z), 1500);
+	PixelPoint px = ConvertAxialToPixelCoordsLocal(AxialCoordinates(hex->X, hex->Z), 1500);
+
+
+	
 	FVector objectPosition(px.X, px.Y, 0);
 	FRotator objectRotation(0, 0, 0); //in degrees
 	FVector objectScale(1, 1, 1);
