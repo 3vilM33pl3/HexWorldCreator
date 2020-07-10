@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "hex_client.h"
+#include "HexWorldServer.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "UObject/ObjectMacros.h"
 
@@ -19,16 +19,10 @@ class HEXWORLDRUNTIME_API UHexWorldBlueprintFunctionLibrary : public UBlueprintF
 
 	public:
 
-	// UFUNCTION(BlueprintCallable, Category="HexWorld")
-	// static 
-	
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
-	static bool ConnectToBackend();
+    UHexWorldServer* ConnectToServer(FString ServerAddress);
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Hexworld")
-	FString ServerAddress;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UHexWorldServer* HexWorldServer;
 
-	private:
-	HexagonClient* HexagonClient;
-	
 };

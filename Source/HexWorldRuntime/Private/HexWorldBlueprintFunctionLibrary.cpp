@@ -1,9 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "HexWorldBlueprintFunctionLibrary.h"
 
-bool UHexWorldBlueprintFunctionLibrary::ConnectToBackend()
+UHexWorldServer* UHexWorldBlueprintFunctionLibrary::ConnectToServer(FString ServerAddress)
 {
-    return false;
+    HexWorldServer->ServerAddress = ServerAddress;
+    HexWorldServer->ConnectToBackend();
+    return HexWorldServer;
+    
 }
