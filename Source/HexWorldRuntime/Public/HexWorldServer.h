@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class HEXWORLDRUNTIME_API UHexWorldServer : public UObject
 {
 	GENERATED_BODY()
@@ -17,16 +17,16 @@ class HEXWORLDRUNTIME_API UHexWorldServer : public UObject
 	public:
 	UHexWorldServer();
 
-	explicit UHexWorldServer(const FObjectInitializer& ObjectInitializer)
-		: UObject(ObjectInitializer)
-	{
-	}
-
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Hexworld")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Hexworld")
 	FString ServerAddress;
 
+	UFUNCTION(BlueprintCallable, Category="HexWorld")
+	bool GetHexagonRing() const;
+
+	UFUNCTION(BlueprintCallable, Category="HexWorld")
 	bool ConnectToBackend();
-	
+
+
 private:
 	HexagonClient* HexagonClient;	
 };

@@ -17,12 +17,10 @@ class HEXWORLDRUNTIME_API UHexWorldBlueprintFunctionLibrary : public UBlueprintF
 {
 	GENERATED_BODY()
 
-	public:
-
+public:
+	UHexWorldBlueprintFunctionLibrary();
+	
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
-    UHexWorldServer* ConnectToServer(FString ServerAddress);
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UHexWorldServer* HexWorldServer;
+    static bool ConnectToServer(UHexWorldServer* Server);
 
 };

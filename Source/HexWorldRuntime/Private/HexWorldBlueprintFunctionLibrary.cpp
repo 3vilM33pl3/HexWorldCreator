@@ -2,10 +2,11 @@
 
 #include "HexWorldBlueprintFunctionLibrary.h"
 
-UHexWorldServer* UHexWorldBlueprintFunctionLibrary::ConnectToServer(FString ServerAddress)
+UHexWorldBlueprintFunctionLibrary::UHexWorldBlueprintFunctionLibrary() : Super()
 {
-    HexWorldServer->ServerAddress = ServerAddress;
-    HexWorldServer->ConnectToBackend();
-    return HexWorldServer;
-    
+}
+
+bool UHexWorldBlueprintFunctionLibrary::ConnectToServer(UHexWorldServer* Server) 
+{
+    return Server->ConnectToBackend();    
 }

@@ -77,12 +77,7 @@ void FHexWorldCreator::PluginButtonClicked()
 		FString msg(resultStream.str().c_str());	
 		// Put your "OnButtonClicked" stuff here
 		FText DialogText = FText::FromString(*msg);
-		FMessageDialog::Open(EAppMsgType::Ok, DialogText);
-
-		
-
-
-		
+		FMessageDialog::Open(EAppMsgType::Ok, DialogText);	
 	} else
 	{
 		FText DialogText = FText::FromString("Unknown state");
