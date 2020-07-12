@@ -15,7 +15,7 @@ class HEXWORLDRUNTIME_API UHexWorldServer : public UObject
 	GENERATED_BODY()
 
 	public:
-	UHexWorldServer();
+	UHexWorldServer(){};
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Hexworld")
 	FString ServerAddress;

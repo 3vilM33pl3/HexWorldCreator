@@ -26,10 +26,6 @@ bool UHexWorldServer::ConnectToBackend()
     }
 }
 
-UHexWorldServer::UHexWorldServer() : Super()
-{
-}
-
 bool UHexWorldServer::GetHexagonRing() const
 {
     const auto ConnectionState = HexagonClient->GetConnectionState();
@@ -42,8 +38,6 @@ bool UHexWorldServer::GetHexagonRing() const
             resultStream << "[X: " << hex.X << ", Y: " << hex.Y << ", Z: " << hex.Z << "]\n";
             // PlaceHexagons(&hex);
         }
-
-		
 
         FString msg(resultStream.str().c_str());	
         // Put your "OnButtonClicked" stuff here
