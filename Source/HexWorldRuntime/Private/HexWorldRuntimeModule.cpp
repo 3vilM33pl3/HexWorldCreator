@@ -1,15 +1,15 @@
-﻿#include "HexWorldRuntime/Public/HexWorldRuntime.h"
+﻿#include "HexWorldRuntime/Public/HexWorldRuntimeModule.h"
 
 DEFINE_LOG_CATEGORY(HexWorldRuntime);
 
 #define LOCTEXT_NAMESPACE "FHexWorldRuntimeModule"
 
-void FHexWorldRuntime::StartupModule()
+void FHexWorldRuntimeModule::StartupModule()
 {
 	UE_LOG(HexWorldRuntime, Warning, TEXT("Hexagon World Runtime module has started!"));
 }
 
-void FHexWorldRuntime::ShutdownModule()
+void FHexWorldRuntimeModule::ShutdownModule()
 {
 	UE_LOG(HexWorldRuntime, Warning, TEXT("Hexagon World Runtime module has shut down"));
 	
@@ -17,4 +17,4 @@ void FHexWorldRuntime::ShutdownModule()
 
 #undef LOCTEXT_NAMESPACE
 	
-IMPLEMENT_MODULE(FHexWorldRuntime, HexWorldRuntime)
+IMPLEMENT_MODULE(FHexWorldRuntimeModule, HexWorldRuntime)
