@@ -1,4 +1,4 @@
-﻿#include "HexWorldRuntime/Public/HexWorldRuntimeModule.h"
+﻿#include "HexWorldRuntimeModule.h"
 
 DEFINE_LOG_CATEGORY(HexWorldRuntime);
 
