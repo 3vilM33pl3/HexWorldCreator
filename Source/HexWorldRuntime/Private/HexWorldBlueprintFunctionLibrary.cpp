@@ -6,7 +6,7 @@ UHexWorldBlueprintFunctionLibrary::UHexWorldBlueprintFunctionLibrary() : Super()
 {
 }
 
-bool UHexWorldBlueprintFunctionLibrary::ConnectToServer(UHexWorldServer* Server) 
+bool UHexWorldBlueprintFunctionLibrary::ConnectToServer(AHexWorldServer* Server) 
 {
     return Server->ConnectToBackend();    
 }

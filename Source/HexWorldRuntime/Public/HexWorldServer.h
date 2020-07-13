@@ -10,23 +10,28 @@
  * 
  */
 UCLASS(BlueprintType)
-class HEXWORLDRUNTIME_API UHexWorldServer : public UObject
+class HEXWORLDRUNTIME_API AHexWorldServer final : public AActor
 {
 	GENERATED_BODY()
 
 	public:
-	UHexWorldServer(){};
+	AHexWorldServer()
+	{
+		HexagonPlain = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HexagonPlain"));
+	};
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Hexworld")
 	FString ServerAddress;
 
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
-	bool GetHexagonRing() const;
+	bool GetHexagonRing();
 
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
 	bool ConnectToBackend();
 
+	UStaticMeshComponent* HexagonPlain;
+	void PlaceHexagon(Hexagon *Hex);
 
 private:
-	HexagonClient* HexagonClient;	
+	HexagonClient* HexagonClient;
 };

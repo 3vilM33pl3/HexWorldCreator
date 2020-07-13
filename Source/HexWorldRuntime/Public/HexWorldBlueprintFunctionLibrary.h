@@ -21,6 +21,12 @@ public:
 	UHexWorldBlueprintFunctionLibrary();
 	
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
-    static bool ConnectToServer(UHexWorldServer* Server);
+    static bool ConnectToServer(AHexWorldServer* Server);
+
+	static PixelPoint ConvertAxialToPixelCoordsLocal(const struct AxialCoordinates &Ac, const int Size) {
+		const double x = Size * (3.0 / 2.0 * Ac.Q);
+		const double y = Size * (sqrt(3.0)/2.0 * Ac.Q + sqrt(3.0) * Ac.R);
+		return PixelPoint(x, y);
+	}
 
 };
