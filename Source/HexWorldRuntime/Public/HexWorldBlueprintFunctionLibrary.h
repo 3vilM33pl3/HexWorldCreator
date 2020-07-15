@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Hexagon.h"
 #include "HexWorldServer.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "UObject/ObjectMacros.h"
@@ -20,13 +21,22 @@ class HEXWORLDRUNTIME_API UHexWorldBlueprintFunctionLibrary : public UBlueprintF
 public:
 	UHexWorldBlueprintFunctionLibrary();
 	
-	UFUNCTION(BlueprintCallable, Category="HexWorld")
+	UFUNCTION(BlueprintCallable, Category="Hexagon World")
     static bool ConnectToServer(AHexWorldServer* Server);
 
-	static PixelPoint ConvertAxialToPixelCoordsLocal(const struct AxialCoordinates &Ac, const int Size) {
+	static PixelPoint ConvertAxialToPixelCoordsLocal(const struct AxialCoordinates &Ac, const int Size)
+	{
 		const double x = Size * (3.0 / 2.0 * Ac.Q);
 		const double y = Size * (sqrt(3.0)/2.0 * Ac.Q + sqrt(3.0) * Ac.R);
 		return PixelPoint(x, y);
+	}
+
+	UFUNCTION(BlueprintCallable, Category="Hexagon World")
+	static FTransform ConvertCubeToTransformCoordinates(const struct FHexagonCoordinates FHC, const int Size)
+	{
+		const double x = Size * (3.0 / 2.0 * FHC.X);
+		const double y = Size * (sqrt(3.0)/2.0 * FHC.Z + sqrt(3.0) * FHC.X);
+		return FTransform(FVector(x, y, 0));
 	}
 
 };

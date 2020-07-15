@@ -1,14 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HexWorldServer.h"
-#include "Components/StaticMeshComponent.h"
-
-#include <sstream>
-
-
-
-#include "HexWorldBlueprintFunctionLibrary.h"
-#include "Interfaces/IPluginManager.h"
+#include "hex_lib.h"
+#include "hex_client.h"
+#include "hex_com_state.h"
 #include "Misc/MessageDialog.h"
 
 bool AHexWorldServer::ConnectToBackend()
@@ -29,45 +24,26 @@ bool AHexWorldServer::ConnectToBackend()
     }
 }
 
-
-void AHexWorldServer::PlaceHexagon(Hexagon* Hex) 
-{
-    
-
-    // const FString ContentDir = IPluginManager::Get().FindPlugin(TEXT("HexWorldCreator"))->GetContentDir();
-    // const FName HexMeshName(ContentDir + "HexagonBase.HexagonBase");
-    UStaticMesh* HexAsset = Cast<UStaticMesh>(StaticLoadObject( UStaticMesh::StaticClass(), nullptr, *FName("/HexWorldCreator/HexagonBase.HexagonBase").ToString() ));
-
-    const PixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoordsLocal(AxialCoordinates(Hex->X, Hex->Z), 1500);
-    const FVector ObjectLocation(Px.X, Px.Y, 0);
-    const FRotator ObjectRotation(0, 0, 0); //in degrees
-
-    AHexWorldServer* SpawnedActor1 = (AHexWorldServer*) GetWorld()->SpawnActor(AHexWorldServer::StaticClass(), &ObjectLocation, &ObjectRotation);
-
-    SpawnedActor1->HexagonPlain->SetStaticMesh(HexAsset);
-
-}
-
-bool AHexWorldServer::GetHexagonRing() 
+TArray<FHexagonCoordinates> AHexWorldServer::GetHexagonRing() const
 {
     const auto ConnectionState = HexagonClient->GetConnectionState();
     if(ConnectionState == hw_conn_state::HEXWORLD_CONNECTION_READY || ConnectionState == hw_conn_state::HEXWORLD_CONNECTION_IDLE)
     {
-        auto result = HexagonClient->GetHexagonRing(new Hexagon(0, 0, 0), 2);
-        std::ostringstream resultStream;
-		
-        for(auto hex: result) {
-            resultStream << "[X: " << hex.X << ", Y: " << hex.Y << ", Z: " << hex.Z << "]\n";
-            PlaceHexagon(&hex);
+        /// TODO put HexCoord in function call
+        std::vector<Hexagon> HexCV = HexagonClient->GetHexagonRing(new Hexagon(0, 0, 0), 2);
+        
+        TArray<FHexagonCoordinates> HCList;
+        
+
+        for(int i=0; i< HexCV.size(); i++)
+        {
+            HCList.Add(FHexagonCoordinates(HexCV[i].X, HexCV[i].Y, HexCV[i].Z));
         }
 
-        FString msg(resultStream.str().c_str());	
-        // Put your "OnButtonClicked" stuff here
-        FText DialogText = FText::FromString(*msg);
-        // FMessageDialog::Open(EAppMsgType::Ok, DialogText);
-        return true;
+        return HCList;
     } else
     {
+        // TODO Logging instead of dialog
         FText DialogText = FText::FromString("Unknown state");
         switch (ConnectionState)
         {
@@ -85,6 +61,7 @@ bool AHexWorldServer::GetHexagonRing()
             break;
         }
         FMessageDialog::Open(EAppMsgType::Ok, DialogText);
-        return false;
+        TArray<FHexagonCoordinates>empty;
+        return empty;
     }
 }

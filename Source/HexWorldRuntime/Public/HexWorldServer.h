@@ -2,9 +2,12 @@
 
 #pragma once
 
-#include "hex_client.h"
+#include "hex_lib.h"
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "Hexagon.h"
+#include "hex_client.h"
+
+
 #include "HexWorldServer.generated.h"
 /**
  * 
@@ -17,20 +20,18 @@ class HEXWORLDRUNTIME_API AHexWorldServer final : public AActor
 	public:
 	AHexWorldServer()
 	{
-		HexagonPlain = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HexagonPlain"));
+		
 	};
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Hexworld")
 	FString ServerAddress;
 
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
-	bool GetHexagonRing();
+	// TODO use Unreal container class instead of vector (garbage collection)
+	TArray<FHexagonCoordinates> GetHexagonRing() const;
 
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
 	bool ConnectToBackend();
-
-	UStaticMeshComponent* HexagonPlain;
-	void PlaceHexagon(Hexagon *Hex);
 
 private:
 	HexagonClient* HexagonClient;
