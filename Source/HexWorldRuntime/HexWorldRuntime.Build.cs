@@ -27,7 +27,6 @@ public class HexWorldRuntime : ModuleRules
 			new string[]
 			{
 				"Core",
-				"HexWorldCreator",
 				"HexWorldCreatorLibrary",
 			}
 			);
