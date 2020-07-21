@@ -22,7 +22,7 @@ public:
 	UHexWorldBlueprintFunctionLibrary();
 	
 	UFUNCTION(BlueprintCallable, Category="Hexagon World")
-    static bool ConnectToServer(AHexWorldServer* Server);
+    static bool ConnectToServer(UHexWorldServer* Server);
 
 	static PixelPoint ConvertAxialToPixelCoordsLocal(const struct AxialCoordinates &Ac, const int Size)
 	{

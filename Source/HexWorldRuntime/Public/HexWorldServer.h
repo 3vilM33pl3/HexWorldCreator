@@ -13,16 +13,18 @@
  * 
  */
 UCLASS(BlueprintType)
-class HEXWORLDRUNTIME_API AHexWorldServer final : public AActor
+class HEXWORLDRUNTIME_API UHexWorldServer final : public UObject
 {
 	GENERATED_BODY()
 
 	public:
-	AHexWorldServer()
+	UHexWorldServer()
 	{
 		
 	};
 
+
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Hexworld")
 	FString ServerAddress;
 

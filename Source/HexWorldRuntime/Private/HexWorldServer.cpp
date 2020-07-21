@@ -6,7 +6,7 @@
 #include "hex_com_state.h"
 #include "Misc/MessageDialog.h"
 
-bool AHexWorldServer::ConnectToBackend()
+bool UHexWorldServer::ConnectToBackend()
 {
     HexagonClient = new ::HexagonClient(std::string(TCHAR_TO_UTF8(*ServerAddress)));
 
@@ -24,7 +24,7 @@ bool AHexWorldServer::ConnectToBackend()
     }
 }
 
-TArray<FHexagonCoordinates> AHexWorldServer::GetHexagonRing() const
+TArray<FHexagonCoordinates> UHexWorldServer::GetHexagonRing() const
 {
     const auto ConnectionState = HexagonClient->GetConnectionState();
     if(ConnectionState == hw_conn_state::HEXWORLD_CONNECTION_READY || ConnectionState == hw_conn_state::HEXWORLD_CONNECTION_IDLE)
