@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HexWorldServer.h"
+
+#include "FHexWorldRunnable.h"
 #include "hex_lib.h"
 #include "hex_client.h"
 #include "hex_com_state.h"
@@ -26,25 +28,33 @@ bool UHexWorldServer::ConnectToBackend()
     }
 }
 
-TArray<FHexagonCoordinates> UHexWorldServer::GetHexagonRing(FAxialCoordinates Center) const
+TArray<FHexagonCoordinates> UHexWorldServer::GetHexagonRing(const FAxialCoordinates Center) const
 {
 
     Hexagon* CenterHex = new Hexagon(Center.Q, - Center.Q - Center.R, Center.R);
     const auto ConnectionState = HexagonClient->GetConnectionState();
     if(ConnectionState == hw_conn_state::HEXWORLD_CONNECTION_READY || ConnectionState == hw_conn_state::HEXWORLD_CONNECTION_IDLE)
     {
-        /// TODO put HexCoord in function call
-        std::vector<Hexagon> HexCV = HexagonClient->GetHexagonRing(CenterHex, 2);
-    
-        TArray<FHexagonCoordinates> HexCoList;
         
-
-        for(int i=0; i< HexCV.size(); i++)
+        
+        FHexWorldRunnable::RunLambdaOnBackgroundThread([&]
         {
-            HexCoList.Add(FHexagonCoordinates(HexCV[i].X, HexCV[i].Y, HexCV[i].Z));
-        }
+            TArray<FHexagonCoordinates> HexCoList;
+            std::vector<Hexagon> HexCV = HexagonClient->GetHexagonRing(CenterHex, 2);
+            for(int i=0; i< HexCV.size(); i++)
+            {
+                HexCoList.Add(FHexagonCoordinates(HexCV[i].X, HexCV[i].Y, HexCV[i].Z));
+            }
+        
+            for (auto Hex : HexCoList)
+            {
+                UE_LOG(LogTemp, Display, TEXT("[%d, %d, %d ]"), Hex.X, Hex.Y, Hex.Z);
+            }
+        });
 
-        return HexCoList;
+        
+        TArray<FHexagonCoordinates>empty;
+        return empty;
     } else
     {
         // TODO Logging instead of dialog

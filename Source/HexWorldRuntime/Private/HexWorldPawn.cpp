@@ -7,23 +7,17 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
-DEFINE_LOG_CATEGORY(LogHexWorld);
+// DEFINE_LOG_CATEGORY(LogHexWorld);
 
 
-
-// Sets default values
-AHexWorldPawn::AHexWorldPawn()
+void AHexWorldPawn::InitialisePawn()
 {
- 	PrimaryActorTick.bCanEverTick = true;
-
-    const FVector Loc = GetActorLocation();
-	CurrentLocationInAxialCoords = UHexWorldBlueprintFunctionLibrary::ConvertPixelToAxialCoords(Loc.X, Loc.Y);
 	
 	struct FConstructorStatics
 	{
 		ConstructorHelpers::FObjectFinderOptional<UStaticMesh> NarrowBoatMesh;
 		FConstructorStatics()
-            : NarrowBoatMesh(TEXT("/HexWorldCreator/Narrowboat.Narrowboat"))
+			: NarrowBoatMesh(TEXT("/HexWorldCreator/Narrowboat.Narrowboat"))
 		{
 		}
 	};
@@ -39,19 +33,29 @@ AHexWorldPawn::AHexWorldPawn()
 	SpringArm->SocketOffset = FVector(0.f,0.f,80.f);
 	SpringArm->bEnableCameraLag = false;	// Do not allow camera to lag
 	SpringArm->CameraLagSpeed = 15.f;
-
+	
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera0"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);	// Attach the camera
 	Camera->bUsePawnControlRotation = false; // Don't rotate camera with controller
+	
+	
+}
 
-	HexWorldServer = NewObject<UHexWorldServer>();
-	HexWorldServer->ConnectToBackend();
+// Sets default values
+AHexWorldPawn::AHexWorldPawn()
+{
+ 	PrimaryActorTick.bCanEverTick = true;
+    InitialisePawn();
 	
 }
 
 // Called when the game starts or when spawned
 void AHexWorldPawn::BeginPlay()
 {
+	const FVector Loc = GetActorLocation();
+	CurrentLocationInAxialCoords = UHexWorldBlueprintFunctionLibrary::ConvertPixelToAxialCoords(Loc.X, Loc.Y);
+	HexWorldServer = NewObject<UHexWorldServer>();
+	HexWorldServer->ConnectToBackend();
 	Super::BeginPlay();
 }
 
@@ -75,6 +79,5 @@ void AHexWorldPawn::Tick(float DeltaTime)
 void AHexWorldPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 

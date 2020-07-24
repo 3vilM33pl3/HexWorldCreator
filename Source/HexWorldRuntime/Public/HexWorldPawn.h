@@ -26,6 +26,7 @@ class HEXWORLDRUNTIME_API AHexWorldPawn final : public APawn
 	class UCameraComponent* Camera;
 
 public:
+	void InitialisePawn();
 	AHexWorldPawn();
 
 protected:
