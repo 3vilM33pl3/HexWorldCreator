@@ -2,16 +2,23 @@
 
 
 #include "HexWorldPawn.h"
+#include "Hexagon.h"
+#include "HexWorldBlueprintFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 DEFINE_LOG_CATEGORY(LogHexWorld);
+
+
 
 // Sets default values
 AHexWorldPawn::AHexWorldPawn()
 {
  	PrimaryActorTick.bCanEverTick = true;
 
+    const FVector Loc = GetActorLocation();
+	CurrentLocationInAxialCoords = UHexWorldBlueprintFunctionLibrary::ConvertPixelToAxialCoords(Loc.X, Loc.Y);
+	
 	struct FConstructorStatics
 	{
 		ConstructorHelpers::FObjectFinderOptional<UStaticMesh> NarrowBoatMesh;
@@ -37,6 +44,8 @@ AHexWorldPawn::AHexWorldPawn()
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);	// Attach the camera
 	Camera->bUsePawnControlRotation = false; // Don't rotate camera with controller
 
+	HexWorldServer = NewObject<UHexWorldServer>();
+	HexWorldServer->ConnectToBackend();
 	
 }
 
@@ -44,16 +53,6 @@ AHexWorldPawn::AHexWorldPawn()
 void AHexWorldPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	HexWorldServer = NewObject<UHexWorldServer>();
-	if(!ServerAddress.IsEmpty())
-	{
-		HexWorldServer->ConnectToBackend();
-	} 
-	else
-	{
-		UE_LOG(LogHexWorld, Error, TEXT("Server address is empty"));		
-	}
-	
 }
 
 // Called every frame
@@ -61,6 +60,14 @@ void AHexWorldPawn::Tick(float DeltaTime)
 {
 	const FVector LocalMove = FVector(CurrentForwardSpeed * DeltaTime, 0.f, 0.f);
 	AddActorLocalOffset(LocalMove, false);
+
+	FVector LocVec = GetActorLocation();
+	FAxialCoordinates Location = UHexWorldBlueprintFunctionLibrary::ConvertPixelToAxialCoords(LocVec.X, LocVec.Y);
+	if(CurrentLocationInAxialCoords.Q != Location.Q || CurrentLocationInAxialCoords.R != Location.R)
+	{
+		CurrentLocationInAxialCoords = Location;
+		HexWorldServer->GetHexagonRing(CurrentLocationInAxialCoords);
+	}
 	Super::Tick(DeltaTime);
 }
 

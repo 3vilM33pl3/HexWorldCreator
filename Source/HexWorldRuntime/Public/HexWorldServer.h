@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "hex_lib.h"
 #include "CoreMinimal.h"
 #include "Hexagon.h"
 #include "hex_client.h"
@@ -26,11 +25,11 @@ class HEXWORLDRUNTIME_API UHexWorldServer final : public UObject
 
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Hexworld")
-	FString ServerAddress;
+	FString ServerAddress = "hexcloud-j6feiuh7aa-ue.a.run.app:443";
 
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
 	// TODO use Unreal container class instead of vector (garbage collection)
-	TArray<FHexagonCoordinates> GetHexagonRing() const;
+	TArray<FHexagonCoordinates> GetHexagonRing(FAxialCoordinates Center) const;
 
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
 	bool ConnectToBackend();

@@ -27,6 +27,8 @@ public class HexWorldRuntime : ModuleRules
 			new string[]
 			{
 				"Core",
+				"CoreUObject",
+				"Engine",
 				"HexWorldCreatorLibrary",
 			}
 			);
@@ -35,8 +37,6 @@ public class HexWorldRuntime : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"CoreUObject",
-				"Engine",
 				"Slate",
 				"SlateCore",
 				// ... add private dependencies that you statically link with here ...	

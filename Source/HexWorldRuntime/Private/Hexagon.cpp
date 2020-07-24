@@ -34,7 +34,7 @@ void AHexagon::Tick(float DeltaTime)
 void AHexagon::TransformAndSpawn(FHexagonCoordinates HexCoord) 
 {
 
-	const PixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoordsLocal(AxialCoordinates(HexCoord.X, HexCoord.Z), 1500);
+	const FPixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(HexCoord.X, HexCoord.Z), 1500);
 	const FVector ObjectLocation(Px.X, Px.Y, 0);
 	const FRotator ObjectRotation(0, 0, 0); //in degrees
 

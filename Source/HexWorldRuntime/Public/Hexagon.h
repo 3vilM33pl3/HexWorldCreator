@@ -24,25 +24,36 @@ struct FHexagonCoordinates {
 	FHexagonCoordinates() {};
 };
 
-struct AxialCoordinates {
-	int32_t Q;
-	int32_t R;
+USTRUCT(BlueprintType)
+struct FAxialCoordinates {
 
-	AxialCoordinates(int32_t Q_, int32_t R_) {
-		Q = Q_;
-		R = R_;
-	}
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Hexagon World")
+	int32 Q;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Hexagon World")
+	int32 R;
+
+
+	FAxialCoordinates(int32_t Q, int32_t R): Q(Q), R(R)	{}
+	FAxialCoordinates() {};
 };
 
-struct PixelPoint {
-	int64_t X;
-	int64_t Y;
+USTRUCT(BlueprintType)
+struct FPixelPoint {
 
-	PixelPoint(int64_t X_, int64_t Y_)
-	{
-		X = X_;
-		Y = Y_;
-	}
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Hexagon World")
+	int32 X;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Hexagon World")
+	int32 Y;
+
+	FPixelPoint(int64_t X, int64_t Y): X(X), Y(Y) {}
+	FPixelPoint() {}; 
+	
 };
 
 UCLASS(BlueprintType)

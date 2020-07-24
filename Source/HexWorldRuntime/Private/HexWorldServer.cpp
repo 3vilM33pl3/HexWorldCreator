@@ -5,6 +5,8 @@
 #include "hex_client.h"
 #include "hex_com_state.h"
 #include "Misc/MessageDialog.h"
+#include "Programs/UnrealLightmass/Private/ImportExport/3DVisualizer.h"
+#include "Programs/UnrealLightmass/Private/ImportExport/3DVisualizer.h"
 
 bool UHexWorldServer::ConnectToBackend()
 {
@@ -24,14 +26,16 @@ bool UHexWorldServer::ConnectToBackend()
     }
 }
 
-TArray<FHexagonCoordinates> UHexWorldServer::GetHexagonRing() const
+TArray<FHexagonCoordinates> UHexWorldServer::GetHexagonRing(FAxialCoordinates Center) const
 {
+
+    Hexagon* CenterHex = new Hexagon(Center.Q, - Center.Q - Center.R, Center.R);
     const auto ConnectionState = HexagonClient->GetConnectionState();
     if(ConnectionState == hw_conn_state::HEXWORLD_CONNECTION_READY || ConnectionState == hw_conn_state::HEXWORLD_CONNECTION_IDLE)
     {
         /// TODO put HexCoord in function call
-        std::vector<Hexagon> HexCV = HexagonClient->GetHexagonRing(new Hexagon(0, 0, 0), 2);
-        
+        std::vector<Hexagon> HexCV = HexagonClient->GetHexagonRing(CenterHex, 2);
+    
         TArray<FHexagonCoordinates> HexCoList;
         
 

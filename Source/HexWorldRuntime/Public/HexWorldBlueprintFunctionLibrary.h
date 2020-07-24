@@ -24,12 +24,40 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Hexagon World")
     static bool ConnectToServer(UHexWorldServer* Server);
 
-	static PixelPoint ConvertAxialToPixelCoordsLocal(const struct AxialCoordinates &Ac, const int Size)
+	UFUNCTION(BlueprintCallable, Category="Hexagon World")
+	static FPixelPoint ConvertAxialToPixelCoords(const struct FAxialCoordinates &Ac, const int Size, const bool FlatTop = true) 
 	{
-		const double x = Size * (3.0 / 2.0 * Ac.Q);
-		const double y = Size * (sqrt(3.0)/2.0 * Ac.Q + sqrt(3.0) * Ac.R);
-		return PixelPoint(x, y);
+		if(FlatTop)
+		{
+			double x = Size * (sqrt(3.0) * Ac.Q + sqrt(3.0)/2.0 * Ac.R);
+			double y = Size * (3.0/2.0 *Ac.R);
+			return FPixelPoint(x,y);
+		}
+		else
+		{
+			double x = Size * (3.0 / 2.0 * Ac.Q);
+			double y = Size * (sqrt(3.0)/2.0 * Ac.Q + sqrt(3.0) * Ac.R);
+			return FPixelPoint(x, y);
+		}
 	}
+
+	UFUNCTION(BlueprintCallable, Category="Hexagon World")
+	static FAxialCoordinates ConvertPixelToAxialCoords(float X, float Y, const int Size = 1500, const bool FlatTop = true)
+	{
+		if(FlatTop)
+		{
+			double Q = (2.0/3.0 * X) / Size;
+			double R = (-1.0/3.0 * X + sqrt(3.0)/3.0 * Y) / Size;
+			return FAxialCoordinates(Q,R);
+		}
+		else
+		{
+			double Q = (sqrt(3.0)/3.0 * X - 1.0/3.0 * Y) / Size;
+			double R = (2.0 / 3.0 * Y) / Size;
+			return FAxialCoordinates(Q, R);
+		}
+	}
+	
 
 	UFUNCTION(BlueprintCallable, Category="Hexagon World")
 	static FTransform ConvertCubeToTransformCoordinates(const struct FHexagonCoordinates FHC, const int Size)

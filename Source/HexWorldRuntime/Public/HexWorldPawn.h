@@ -5,13 +5,14 @@
 #include "CoreMinimal.h"
 #include "Logging/LogMacros.h"
 #include "GameFramework/Pawn.h"
+#include "Hexagon.h"
 #include "HexWorldServer.h"
 #include "HexWorldPawn.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogHexWorld, Log, All);
 
 UCLASS()
-class HEXWORLDRUNTIME_API AHexWorldPawn : public APawn
+class HEXWORLDRUNTIME_API AHexWorldPawn final : public APawn
 {
 	GENERATED_BODY()
 
@@ -34,9 +35,12 @@ public:
 	UPROPERTY(Category = Mesh, BlueprintReadWrite, EditAnywhere)
 	float CurrentForwardSpeed = 500.0f;
 
+	UPROPERTY(Category=HexWorld, BlueprintReadWrite, EditAnywhere)
+	FString ServerAddress;
+	
 	UPROPERTY(Category = Camera, BlueprintReadWrite, EditAnywhere)
 	float SpringArmLength = -440.0f;
-	
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -46,14 +50,15 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	UHexWorldServer* HexWorldServer;
 
-	UPROPERTY()
-	FString ServerAddress;
-	
+
 	/** Returns PlaneMesh subobject **/
 	FORCEINLINE class UStaticMeshComponent* GetPlaneMesh() const { return NarrowBoatMesh; }
 	/** Returns SpringArm subobject **/
 	FORCEINLINE class USpringArmComponent* GetSpringArm() const { return SpringArm; }
 	/** Returns Camera subobject **/
 	FORCEINLINE class UCameraComponent* GetCamera() const { return Camera; }
+
+	private:
+	FAxialCoordinates CurrentLocationInAxialCoords;
 	
 };

@@ -10,6 +10,7 @@
 #include "Misc/MessageDialog.h"
 #include "Editor.h"
 #include "Hexagon.h"
+#include "HexWorldBlueprintFunctionLibrary.h"
 #include "ToolMenus.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Engine/StaticMeshActor.h"
@@ -131,36 +132,31 @@ void FHexWorldCreatorModule::RegisterMenus()
 	}
 }
 
-PixelPoint ConvertAxialToPixelCoordsLocal(const struct AxialCoordinates &ac, const int size) {
-    double x = size * (3.0 / 2.0 * ac.Q);
-    double y = size * (sqrt(3.0)/2.0 * ac.Q + sqrt(3.0) * ac.R);
-    return PixelPoint(x, y);
-}
+
 
 void FHexWorldCreatorModule::PlaceHexagons(FHexagonCoordinates* hex) const
 {
 	UE_LOG(LogTemp, Warning, TEXT("Placing Hexagon\n"));
-	PixelPoint px = ConvertAxialToPixelCoordsLocal(AxialCoordinates(hex->X, hex->Z), 1500);
+	FPixelPoint px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(hex->X, hex->Z), 1500);
 
 
-	
-	FVector objectPosition(px.X, px.Y, 0);
-	FRotator objectRotation(0, 0, 0); //in degrees
-	FVector objectScale(1, 1, 1);
-	FTransform objectTrasform(objectRotation, objectPosition, objectScale);
+	const FVector ObjectPosition(px.X, px.Y, 0);
+	const FRotator ObjectRotation(0, 90, 0); //in degrees
+	const FVector ObjectScale(1, 1, 1);
+	const FTransform ObjectTransform(ObjectRotation, ObjectPosition, ObjectScale);
 
 	UWorld* currentWorld = GEditor->GetEditorWorldContext().World();
 	ULevel * currentLevel = currentWorld->GetCurrentLevel();
 	UClass * staticMeshClass = AStaticMeshActor::StaticClass();
 
-	AActor * newActorCreated = GEditor->AddActor(currentLevel, staticMeshClass, objectTrasform, true, RF_Public | RF_Standalone | RF_Transactional);
+	AActor * newActorCreated = GEditor->AddActor(currentLevel, staticMeshClass, ObjectTransform, true, RF_Public | RF_Standalone | RF_Transactional);
 
 	UStaticMesh* HexAsset = Cast<UStaticMesh>(StaticLoadObject( UStaticMesh::StaticClass(), nullptr, *FName("/HexWorldCreator/HexagonBase.HexagonBase").ToString() ));
 
 	AStaticMeshActor * smActor = Cast<AStaticMeshActor>(newActorCreated);
 
 	smActor->GetStaticMeshComponent()->SetStaticMesh(HexAsset);
-	smActor->SetActorScale3D(objectScale);
+	smActor->SetActorScale3D(ObjectScale);
 	// ID Name & Visible Name
 	// smActor->Rename(TEXT("MyStaticMeshInTheWorld" + hex->X + hex->Y + hex->Z));
 	// smActor->SetActorLabel("MyStaticMeshInTheWorld" + hex->X + hex->Y + hex->Z);
