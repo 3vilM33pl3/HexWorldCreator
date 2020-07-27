@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Hexagon.h"
+#include "Containers/CircularQueue.h"
 
 /**
  * 
@@ -22,7 +24,7 @@ private:
 
 
 public:
-	FHexWorldRunnable(TFunction< void()> InFunction);
+	FHexWorldRunnable(TCircularQueue<FHexagonCoordinates>* Data ,TFunction< void()> InFunction);
 	~FHexWorldRunnable();
 
 
@@ -31,5 +33,7 @@ public:
 	virtual void Stop() override;
 	virtual void Exit() override;
 
-	static FHexWorldRunnable* RunLambdaOnBackgroundThread(TFunction<void()> InFunction);
+	static FHexWorldRunnable* RunLambdaOnBackgroundThread(TCircularQueue<FHexagonCoordinates>* Data ,TFunction<void()> InFunction);
+	private:
+	TCircularQueue<FHexagonCoordinates>* HexCoordData;
 };

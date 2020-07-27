@@ -5,11 +5,12 @@
 
 uint64 FHexWorldRunnable::ThreadNumber = 0;
 
-FHexWorldRunnable::FHexWorldRunnable(TFunction< void()> InFunction)
+FHexWorldRunnable::FHexWorldRunnable(TCircularQueue<FHexagonCoordinates>* Data, TFunction< void()> InFunction)
 {
     FunctionPointer = InFunction;
     Finished = false;
     Number = ThreadNumber;
+    HexCoordData = Data;
 
     const FString ThreadName = FString::Printf(TEXT("HexWorld Back End Communication Thread %d"), ThreadNumber);
     Thread = FRunnableThread::Create(this, *ThreadName, 0, TPri_BelowNormal); //windows default = 8mb for thread, could specify more
@@ -48,11 +49,11 @@ void FHexWorldRunnable::Exit()
     delete this;
 }
 
-FHexWorldRunnable* FHexWorldRunnable::RunLambdaOnBackgroundThread(TFunction<void()> InFunction)
+FHexWorldRunnable* FHexWorldRunnable::RunLambdaOnBackgroundThread(TCircularQueue<FHexagonCoordinates>* Data ,TFunction<void()> InFunction)
 {
     if(FPlatformProcess::SupportsMultithreading())
     {
-        return new FHexWorldRunnable(InFunction);
+        return new FHexWorldRunnable(Data, InFunction);
     }
     else
     {

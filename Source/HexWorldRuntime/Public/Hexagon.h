@@ -74,10 +74,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY()
+	UStaticMeshComponent* HexagonPlain;
+
+	UPROPERTY()
+	UStaticMesh* HexMesh;
 
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
 	void TransformAndSpawn(FHexagonCoordinates HexCoord);
 
 private:
-	UStaticMeshComponent* HexagonPlain;
 };

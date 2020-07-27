@@ -51,7 +51,9 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	UHexWorldServer* HexWorldServer;
 
-
+	UPROPERTY(BlueprintReadOnly)
+	UStaticMeshComponent* HexagonPlain;
+	
 	/** Returns PlaneMesh subobject **/
 	FORCEINLINE class UStaticMeshComponent* GetPlaneMesh() const { return NarrowBoatMesh; }
 	/** Returns SpringArm subobject **/
@@ -61,5 +63,7 @@ public:
 
 	private:
 	FAxialCoordinates CurrentLocationInAxialCoords;
+	TArray<AHexagon*> AllTheHexagons{};
+
 	
 };

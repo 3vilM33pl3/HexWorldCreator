@@ -14,7 +14,12 @@ AHexagon::AHexagon()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	HexagonPlain = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HexagonPlain"));
+	RootComponent = HexagonPlain;
 
+	HexMesh = Cast<UStaticMesh>(StaticLoadObject( UStaticMesh::StaticClass(), nullptr, *FName("/HexWorldCreator/HexagonBase.HexagonBase").ToString() ));
+	// static ConstructorHelpers::FObjectFinder<UStaticMesh> HexMesh(TEXT("/HexWorldCreator/HexagonBase.HexagonBase"));
+	HexagonPlain->SetStaticMesh(HexMesh);
+	
 }
 
 // Called when the game starts or when spawned
@@ -31,20 +36,33 @@ void AHexagon::Tick(float DeltaTime)
 
 }
 
-void AHexagon::TransformAndSpawn(FHexagonCoordinates HexCoord) 
+void AHexagon::TransformAndSpawn(FHexagonCoordinates Hex) 
 {
 
-	const FPixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(HexCoord.X, HexCoord.Z), 1500);
-	const FVector ObjectLocation(Px.X, Px.Y, 0);
-	const FRotator ObjectRotation(0, 0, 0); //in degrees
-
-	SetActorTransform(FTransform(ObjectLocation));
-
-	UStaticMesh* HexAsset = Cast<UStaticMesh>(StaticLoadObject( UStaticMesh::StaticClass(), nullptr, *FName("/HexWorldCreator/HexagonBase.HexagonBase").ToString() ));
-
+	// const FPixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(HexCoord.X, HexCoord.Z), 1500);
+	// const FVector ObjectLocation(Px.X, Px.Y, 0);
+	// const FRotator ObjectRotation(0, 0, 0); //in degrees
+	//
+	// SetActorTransform(FTransform(ObjectLocation));
+	//
+	// UStaticMesh* HexAsset = Cast<UStaticMesh>(StaticLoadObject( UStaticMesh::StaticClass(), nullptr, *FName("/HexWorldCreator/HexagonBase.HexagonBase").ToString() ));
+	//
 	// HexagonPlain->SetupAttachment(RootComponent);
 	// HexagonPlain->bHiddenInGame = false;
 	// HexagonPlain->SetMobility(EComponentMobility::Stationary);
-	HexagonPlain->SetStaticMesh(HexAsset);
+	// HexagonPlain->SetStaticMesh(HexAsset);
+
+
+	const FPixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(Hex.X, Hex.Z), 1500);
+	const FVector ObjectPosition(Px.X, Px.Y, 0);
+	const FRotator ObjectRotation(0, -90, 0); //in degrees
+	const FVector ObjectScale(1, 1, 1);
+	const FTransform ObjectTransform(ObjectRotation, ObjectPosition, ObjectScale);
+
+	HexagonPlain->SetRelativeTransform(ObjectTransform);
+	HexagonPlain->SetWorldTransform(ObjectTransform);
+	// SetActorTransform(ObjectTransform);	
+	// HexagonPlain->SetWorldTransform(ObjectTransform);
+	// HexagonPlain->SetStaticMesh(HexAsset);
 
 }

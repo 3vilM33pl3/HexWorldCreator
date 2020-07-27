@@ -37,6 +37,8 @@ void AHexWorldPawn::InitialisePawn()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera0"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);	// Attach the camera
 	Camera->bUsePawnControlRotation = false; // Don't rotate camera with controller
+
+	HexagonPlain = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HexagonPlain"));
 	
 	
 }
@@ -71,6 +73,30 @@ void AHexWorldPawn::Tick(float DeltaTime)
 	{
 		CurrentLocationInAxialCoords = Location;
 		HexWorldServer->GetHexagonRing(CurrentLocationInAxialCoords);
+		
+	}
+	if(!HexWorldServer->HexCoordData->IsEmpty())
+	{
+		FHexagonCoordinates* Hex = new FHexagonCoordinates();
+		if(HexWorldServer->HexCoordData->Dequeue(*Hex))
+		{
+			AHexagon* HexMesh = NewObject<AHexagon>();
+			HexMesh->TransformAndSpawn(*Hex);
+			AllTheHexagons.Push(HexMesh);
+			HexMesh->HexagonPlain->RegisterComponentWithWorld(GetWorld());
+			
+			// UStaticMesh* HexAsset = Cast<UStaticMesh>(StaticLoadObject( UStaticMesh::StaticClass(), nullptr, *FName("/HexWorldCreator/HexagonBase.HexagonBase").ToString() ));
+			//
+			// const FPixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(Hex->X, Hex->Z), 1500);
+			// const FVector ObjectPosition(Px.X, Px.Y, 0);
+			// const FRotator ObjectRotation(0, 0, 0); //in degrees
+			// const FVector ObjectScale(1, 1, 1);
+			// const FTransform ObjectTransform(ObjectRotation, ObjectPosition, ObjectScale);
+			//
+			// HexMesh->HexagonPlain->SetWorldTransform(ObjectTransform);
+			// HexMesh->HexagonPlain->SetStaticMesh(HexAsset);
+			
+		}
 	}
 	Super::Tick(DeltaTime);
 }

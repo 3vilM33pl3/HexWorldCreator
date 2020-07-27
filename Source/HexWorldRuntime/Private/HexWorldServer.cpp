@@ -37,18 +37,23 @@ TArray<FHexagonCoordinates> UHexWorldServer::GetHexagonRing(const FAxialCoordina
     {
         
         
-        FHexWorldRunnable::RunLambdaOnBackgroundThread([&]
+        FHexWorldRunnable::RunLambdaOnBackgroundThread(HexCoordData,[&]
         {
             TArray<FHexagonCoordinates> HexCoList;
-            std::vector<Hexagon> HexCV = HexagonClient->GetHexagonRing(CenterHex, 2);
+            std::vector<Hexagon> HexCV = HexagonClient->GetHexagonRing(CenterHex, 1);
             for(int i=0; i< HexCV.size(); i++)
             {
-                HexCoList.Add(FHexagonCoordinates(HexCV[i].X, HexCV[i].Y, HexCV[i].Z));
+                FHexagonCoordinates Hc{ static_cast<int>(HexCV[i].X),  static_cast<int>(HexCV[i].Y),  static_cast<int>(HexCV[i].Z)};
+                
+                HexCoList.Add(Hc);
+                HexCoordData->Enqueue(Hc);
             }
         
             for (auto Hex : HexCoList)
             {
                 UE_LOG(LogTemp, Display, TEXT("[%d, %d, %d ]"), Hex.X, Hex.Y, Hex.Z);
+
+                
             }
         });
 

@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Hexagon.h"
 #include "hex_client.h"
+#include "Containers/CircularQueue.h"
+
 
 
 #include "HexWorldServer.generated.h"
@@ -33,6 +35,8 @@ class HEXWORLDRUNTIME_API UHexWorldServer final : public UObject
 
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
 	bool ConnectToBackend();
+
+	TCircularQueue<FHexagonCoordinates>* HexCoordData = new TCircularQueue<FHexagonCoordinates>(12);
 
 private:
 	HexagonClient* HexagonClient;
