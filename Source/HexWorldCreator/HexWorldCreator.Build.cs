@@ -25,10 +25,7 @@ public class HexWorldCreator : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core",
-				"HexWorldRuntime",
-				"HexWorldCreatorLibrary" 
-				// ... add other public dependencies that you statically link with here ...
+				"Core"
 			}
 			);
 			
@@ -36,9 +33,11 @@ public class HexWorldCreator : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
+				"UnrealEd",
+				"HexWorldCreatorLibrary",
+				"HexWorldRuntime",
 				"Projects",
 				"InputCore",
-				"UnrealEd",
 				"ToolMenus",
 				"CoreUObject",
 				"Engine",

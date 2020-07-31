@@ -39,30 +39,13 @@ void AHexagon::Tick(float DeltaTime)
 void AHexagon::TransformAndSpawn(FHexagonCoordinates Hex) 
 {
 
-	// const FPixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(HexCoord.X, HexCoord.Z), 1500);
-	// const FVector ObjectLocation(Px.X, Px.Y, 0);
-	// const FRotator ObjectRotation(0, 0, 0); //in degrees
-	//
-	// SetActorTransform(FTransform(ObjectLocation));
-	//
-	// UStaticMesh* HexAsset = Cast<UStaticMesh>(StaticLoadObject( UStaticMesh::StaticClass(), nullptr, *FName("/HexWorldCreator/HexagonBase.HexagonBase").ToString() ));
-	//
-	// HexagonPlain->SetupAttachment(RootComponent);
-	// HexagonPlain->bHiddenInGame = false;
-	// HexagonPlain->SetMobility(EComponentMobility::Stationary);
-	// HexagonPlain->SetStaticMesh(HexAsset);
-
-
 	const FPixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(Hex.X, Hex.Z), 1500);
 	const FVector ObjectPosition(Px.X, Px.Y, 0);
-	const FRotator ObjectRotation(0, -90, 0); //in degrees
+	const FRotator ObjectRotation(0, 0, 0); //in degrees
 	const FVector ObjectScale(1, 1, 1);
 	const FTransform ObjectTransform(ObjectRotation, ObjectPosition, ObjectScale);
 
 	HexagonPlain->SetRelativeTransform(ObjectTransform);
 	HexagonPlain->SetWorldTransform(ObjectTransform);
-	// SetActorTransform(ObjectTransform);	
-	// HexagonPlain->SetWorldTransform(ObjectTransform);
-	// HexagonPlain->SetStaticMesh(HexAsset);
 
 }

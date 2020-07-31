@@ -27,18 +27,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Hexagon World")
 	static FPixelPoint ConvertAxialToPixelCoords(const struct FAxialCoordinates &Ac, const int Size, const bool FlatTop = true) 
 	{
-		if(FlatTop)
-		{
-			double x = Size * (sqrt(3.0) * Ac.Q + sqrt(3.0)/2.0 * Ac.R);
-			double y = Size * (3.0/2.0 *Ac.R);
-			return FPixelPoint(x,y);
-		}
-		else
-		{
-			double x = Size * (3.0 / 2.0 * Ac.Q);
-			double y = Size * (sqrt(3.0)/2.0 * Ac.Q + sqrt(3.0) * Ac.R);
-			return FPixelPoint(x, y);
-		}
+		double x = Size * (3.0 / 2.0 * Ac.Q);
+		double y = Size * (sqrt(3.0)/2.0 * Ac.Q + sqrt(3.0) * Ac.R);
+		return FPixelPoint(x, y);
 	}
 
 	UFUNCTION(BlueprintCallable, Category="Hexagon World")

@@ -36,7 +36,7 @@ struct FAxialCoordinates {
 	int32 R;
 
 
-	FAxialCoordinates(int32_t Q, int32_t R): Q(Q), R(R)	{}
+	FAxialCoordinates(int32 Q, int32 R): Q(Q), R(R)	{}
 	FAxialCoordinates() {};
 };
 

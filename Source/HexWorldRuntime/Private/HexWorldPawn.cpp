@@ -28,11 +28,9 @@ void AHexWorldPawn::InitialisePawn()
 	RootComponent = NarrowBoatMesh;
 	
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm0"));
-	SpringArm->SetupAttachment(RootComponent);	// Attach SpringArm to RootComponent
-	SpringArm->TargetArmLength = SpringArmLength; // The camera follows at this distance behind the character	
-	SpringArm->SocketOffset = FVector(0.f,0.f,80.f);
-	SpringArm->bEnableCameraLag = false;	// Do not allow camera to lag
-	SpringArm->CameraLagSpeed = 15.f;
+	SpringArm->SetupAttachment(RootComponent);
+	SpringArm->SetRelativeLocation(FVector(-550.f,0.f,240.f));
+	SpringArm->TargetArmLength = .0f;	
 	
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera0"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);	// Attach the camera
