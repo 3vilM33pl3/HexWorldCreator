@@ -7,8 +7,6 @@
 #include "hex_client.h"
 #include "hex_com_state.h"
 #include "Misc/MessageDialog.h"
-#include "Programs/UnrealLightmass/Private/ImportExport/3DVisualizer.h"
-#include "Programs/UnrealLightmass/Private/ImportExport/3DVisualizer.h"
 
 bool UHexWorldServer::ConnectToBackend()
 {

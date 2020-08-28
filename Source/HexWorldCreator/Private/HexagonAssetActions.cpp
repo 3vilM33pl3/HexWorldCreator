@@ -16,19 +16,22 @@ FText HexagonAssetActions::GetName() const
 
 UClass* HexagonAssetActions::GetSupportedClass() const
 {
-    
+    return nullptr;
 }
 
 FColor HexagonAssetActions::GetTypeColor() const
 {
+    return FColor{};
 }
 
 uint32 HexagonAssetActions::GetCategories()
 {
+    return 0;
 }
 
 bool HexagonAssetActions::HasActions(const TArray<UObject*>& InObjects) const
 {
+    return false;
 }
 
 void HexagonAssetActions::GetActions(const TArray<UObject*>& InObjects, FMenuBuilder& MenuBuilder)
@@ -42,4 +45,5 @@ void HexagonAssetActions::OpenAssetEditor(const TArray<UObject*>& InObjects,
 
 bool HexagonAssetActions::CanFilter()
 {
+    return false;;
 }
