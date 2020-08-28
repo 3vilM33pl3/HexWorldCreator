@@ -12,7 +12,7 @@ DECLARE_LOG_CATEGORY_EXTERN(HexWorldEditor, All, All);
 class FToolBarBuilder;
 class FMenuBuilder;
 
-class FHexWorldCreatorModule : public IModuleInterface
+class FHexWorldEditorModule : public IModuleInterface
 {
 public:
 

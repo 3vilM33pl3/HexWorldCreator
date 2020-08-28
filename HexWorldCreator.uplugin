@@ -16,7 +16,7 @@
 	"Installed": false,
 	"Modules": [
 		{
-			"Name": "HexWorldCreator",
+			"Name": "HexWorldEditor",
 			"Type": "Editor",
 			"LoadingPhase": "Default"
 		},

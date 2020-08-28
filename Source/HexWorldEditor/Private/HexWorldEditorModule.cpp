@@ -1,27 +1,26 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "HexWorldCreatorModule.h"
+#include "HexWorldEditorModule.h"
 
 #include <sstream>
 
-#include "HexWorldCreatorStyle.h"
-#include "HexWorldCreatorCommands.h"
+#include "HexWorldEditorStyle.h"
+#include "HexWorldEditorCommands.h"
 #include "LevelEditorViewport.h"
 #include "Misc/MessageDialog.h"
 #include "Editor.h"
 #include "Hexagon.h"
 #include "HexWorldBlueprintFunctionLibrary.h"
 #include "ToolMenus.h"
-#include "UObject/ConstructorHelpers.h"
 #include "Engine/StaticMeshActor.h"
 
 DEFINE_LOG_CATEGORY(HexWorldEditor);
 
-static const FName HexWorldCreatorTabName("HexWorldCreator");
+static const FName HexWorldEditorTabName("HexWorldEditor");
 
-#define LOCTEXT_NAMESPACE "FHexWorldCreatorModule"
+#define LOCTEXT_NAMESPACE "FHexWorldEditorModule"
 
-void FHexWorldCreatorModule::StartupModule()
+void FHexWorldEditorModule::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 
@@ -34,22 +33,22 @@ void FHexWorldCreatorModule::StartupModule()
 	}
 
 	
-	FHexWorldCreatorStyle::Initialize();
-	FHexWorldCreatorStyle::ReloadTextures();
+	FHexWorldEditorStyle::Initialize();
+	FHexWorldEditorStyle::ReloadTextures();
 
-	FHexWorldCreatorCommands::Register();
+	FHexWorldEditorCommands::Register();
 	
 	PluginCommands = MakeShareable(new FUICommandList);
 
 	PluginCommands->MapAction(
-		FHexWorldCreatorCommands::Get().PluginAction,
-		FExecuteAction::CreateRaw(this, &FHexWorldCreatorModule::PluginButtonClicked),
+		FHexWorldEditorCommands::Get().PluginAction,
+		FExecuteAction::CreateRaw(this, &FHexWorldEditorModule::PluginButtonClicked),
 		FCanExecuteAction());
 
-	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FHexWorldCreatorModule::RegisterMenus));
+	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FHexWorldEditorModule::RegisterMenus));
 }
 
-void FHexWorldCreatorModule::ShutdownModule()
+void FHexWorldEditorModule::ShutdownModule()
 {
 	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
 	// we call this function before unloading the module.
@@ -58,12 +57,12 @@ void FHexWorldCreatorModule::ShutdownModule()
 
 	UToolMenus::UnregisterOwner(this);
 
-	FHexWorldCreatorStyle::Shutdown();
+	FHexWorldEditorStyle::Shutdown();
 
-	FHexWorldCreatorCommands::Unregister();
+	FHexWorldEditorCommands::Unregister();
 }
 
-void FHexWorldCreatorModule::PluginButtonClicked()
+void FHexWorldEditorModule::PluginButtonClicked()
 {
 	auto connectionState = hexagonClient->GetConnectionState();
 	if(connectionState == hw_conn_state::HEXWORLD_CONNECTION_READY || connectionState == hw_conn_state::HEXWORLD_CONNECTION_IDLE)
@@ -107,7 +106,7 @@ void FHexWorldCreatorModule::PluginButtonClicked()
 	
 }
 
-void FHexWorldCreatorModule::RegisterMenus()
+void FHexWorldEditorModule::RegisterMenus()
 {
 	// Owner will be used for cleanup in call to UToolMenus::UnregisterOwner
 	FToolMenuOwnerScoped OwnerScoped(this);
@@ -116,7 +115,7 @@ void FHexWorldCreatorModule::RegisterMenus()
 		UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Window");
 		{
 			FToolMenuSection& Section = Menu->FindOrAddSection("WindowLayout");
-			Section.AddMenuEntryWithCommandList(FHexWorldCreatorCommands::Get().PluginAction, PluginCommands);
+			Section.AddMenuEntryWithCommandList(FHexWorldEditorCommands::Get().PluginAction, PluginCommands);
 		}
 	}
 
@@ -125,7 +124,7 @@ void FHexWorldCreatorModule::RegisterMenus()
 		{
 			FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Settings");
 			{
-				FToolMenuEntry& Entry = Section.AddEntry(FToolMenuEntry::InitToolBarButton(FHexWorldCreatorCommands::Get().PluginAction));
+				FToolMenuEntry& Entry = Section.AddEntry(FToolMenuEntry::InitToolBarButton(FHexWorldEditorCommands::Get().PluginAction));
 				Entry.SetCommandList(PluginCommands);
 			}
 		}
@@ -134,7 +133,7 @@ void FHexWorldCreatorModule::RegisterMenus()
 
 
 
-void FHexWorldCreatorModule::PlaceHexagons(FHexagonCoordinates* hex) const
+void FHexWorldEditorModule::PlaceHexagons(FHexagonCoordinates* hex) const
 {
 	UE_LOG(LogTemp, Warning, TEXT("Placing Hexagon\n"));
 	FPixelPoint px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(hex->X, hex->Z), 1500);
@@ -171,4 +170,4 @@ void FHexWorldCreatorModule::PlaceHexagons(FHexagonCoordinates* hex) const
 
 #undef LOCTEXT_NAMESPACE
 	
-IMPLEMENT_MODULE(FHexWorldCreatorModule, HexWorldCreator)
+IMPLEMENT_MODULE(FHexWorldEditorModule, HexWorldEditor)
