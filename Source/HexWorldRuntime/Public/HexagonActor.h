@@ -1,12 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "UObject/ObjectMacros.h"
-
-#include "Hexagon.generated.h"
+#include "HexagonActor.generated.h"
 
 USTRUCT(Blueprintable)
 struct FHexagonCoordinates {
@@ -35,9 +31,9 @@ struct FAxialCoordinates {
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Hexagon World")
 	int32 R;
 
-
 	FAxialCoordinates(int32 Q, int32 R): Q(Q), R(R)	{}
-	FAxialCoordinates() {};
+	FAxialCoordinates(): Q(0), R(0) {}
+	
 };
 
 USTRUCT(BlueprintType)
@@ -57,13 +53,13 @@ struct FPixelPoint {
 };
 
 UCLASS(BlueprintType)
-class HEXWORLDRUNTIME_API AHexagon final : public AActor
+class HEXWORLDRUNTIME_API AHexagonActor final : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AHexagon();
+	AHexagonActor();
 
 protected:
 	// Called when the game starts or when spawned

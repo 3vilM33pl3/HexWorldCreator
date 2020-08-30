@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Hexagon.h"
+#include "HexagonActor.h"
 #include "hex_client.h"
 #include "Modules/ModuleInterface.h"
 

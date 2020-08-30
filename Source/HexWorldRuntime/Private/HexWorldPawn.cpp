@@ -2,7 +2,7 @@
 
 
 #include "HexWorldPawn.h"
-#include "Hexagon.h"
+#include "HexagonActor.h"
 #include "HexWorldBlueprintFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -78,7 +78,7 @@ void AHexWorldPawn::Tick(float DeltaTime)
 		FHexagonCoordinates* Hex = new FHexagonCoordinates();
 		if(HexWorldServer->HexCoordData->Dequeue(*Hex))
 		{
-			AHexagon* HexMesh = NewObject<AHexagon>();
+			AHexagonActor* HexMesh = NewObject<AHexagonActor>();
 			HexMesh->TransformAndSpawn(*Hex);
 			AllTheHexagons.Push(HexMesh);
 			HexMesh->HexagonPlain->RegisterComponentWithWorld(GetWorld());

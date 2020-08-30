@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HexagonActorFactory.h"
-#include "Hexagon.h"
+#include "HexagonActor.h"
 
 
 const FName UHexagonActorFactory::HexagonBase("/HexWorldCreator/HexagonBase.HexagonBase");

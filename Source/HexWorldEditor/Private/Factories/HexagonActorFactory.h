@@ -16,5 +16,6 @@ class UHexagonActorFactory : public UActorFactory
 	static const FName HexagonCanalCurve;
 	static const FName HexagonCanalStraight;
 	static const FName HexagonCanalSplit;
+
 	
 };

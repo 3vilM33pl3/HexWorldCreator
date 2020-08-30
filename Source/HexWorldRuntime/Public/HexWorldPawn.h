@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Logging/LogMacros.h"
 #include "GameFramework/Pawn.h"
-#include "Hexagon.h"
+#include "HexagonActor.h"
 #include "HexWorldServer.h"
 #include "HexWorldPawn.generated.h"
 
@@ -63,7 +63,7 @@ public:
 
 	private:
 	FAxialCoordinates CurrentLocationInAxialCoords;
-	TArray<AHexagon*> AllTheHexagons{};
+	TArray<AHexagonActor*> AllTheHexagons{};
 
 	
 };

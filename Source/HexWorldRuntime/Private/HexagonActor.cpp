@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Hexagon.h"
+#include "HexagonActor.h"
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
@@ -9,7 +9,7 @@
 #include "Interfaces/IPluginManager.h"
 
 // Sets default values
-AHexagon::AHexagon()
+AHexagonActor::AHexagonActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -23,20 +23,20 @@ AHexagon::AHexagon()
 }
 
 // Called when the game starts or when spawned
-void AHexagon::BeginPlay()
+void AHexagonActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void AHexagon::Tick(float DeltaTime)
+void AHexagonActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void AHexagon::TransformAndSpawn(FHexagonCoordinates Hex) 
+void AHexagonActor::TransformAndSpawn(FHexagonCoordinates Hex) 
 {
 
 	const FPixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(Hex.X, Hex.Z), 1500);

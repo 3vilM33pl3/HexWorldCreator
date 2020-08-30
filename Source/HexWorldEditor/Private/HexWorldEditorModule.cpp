@@ -9,7 +9,7 @@
 #include "LevelEditorViewport.h"
 #include "Misc/MessageDialog.h"
 #include "Editor.h"
-#include "Hexagon.h"
+#include "HexagonActor.h"
 #include "HexWorldBlueprintFunctionLibrary.h"
 #include "ToolMenus.h"
 #include "Engine/StaticMeshActor.h"
