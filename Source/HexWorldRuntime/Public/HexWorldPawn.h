@@ -6,7 +6,7 @@
 #include "Logging/LogMacros.h"
 #include "GameFramework/Pawn.h"
 #include "HexagonActor.h"
-#include "HexWorldServer.h"
+#include "HexWorldClient.h"
 #include "HexWorldPawn.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogHexWorld, Log, All);
@@ -49,7 +49,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(BlueprintReadOnly)
-	UHexWorldServer* HexWorldServer;
+	UHexWorldClient* HexWorldServer;
 
 	UPROPERTY(BlueprintReadOnly)
 	UStaticMeshComponent* HexagonPlain;

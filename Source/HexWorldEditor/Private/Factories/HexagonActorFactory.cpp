@@ -13,6 +13,12 @@ void UHexagonActorFactory::PostSpawnActor(UObject* Asset, AActor* NewActor)
 {
         UE_LOG(LogTemp, Warning, TEXT("Lalala") );
 }
+
+UHexagonActorFactory::UHexagonActorFactory(UActorFactory&& ActorFactory)
+{
+    
+}
+
 bool UHexagonActorFactory::CanCreateActorFrom(const FAssetData& AssetData, FText& OutErrorMsg)
 {
     if ( !AssetData.IsValid() || !AssetData.GetClass()->IsChildOf( UStaticMesh::StaticClass() ) )

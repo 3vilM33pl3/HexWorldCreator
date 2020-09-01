@@ -25,7 +25,7 @@ public:
 	
 private:
 	void RegisterMenus();
-	HexagonClient* hexagonClient;
+	HexagonClient* MHexagonClient = nullptr;
 	TSharedPtr<class FUICommandList> PluginCommands;
 	void PlaceHexagons(FHexagonCoordinates* hex) const;
 };

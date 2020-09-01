@@ -17,5 +17,7 @@ class UHexagonActorFactory : public UActorFactory
 	static const FName HexagonCanalStraight;
 	static const FName HexagonCanalSplit;
 
+public:
+	explicit UHexagonActorFactory(UActorFactory&& ActorFactory);	
 	
 };

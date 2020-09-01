@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "HexagonActor.h"
-#include "HexWorldServer.h"
+#include "HexWorldClient.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "UObject/ObjectMacros.h"
 
@@ -22,7 +22,7 @@ public:
 	UHexWorldBlueprintFunctionLibrary();
 	
 	UFUNCTION(BlueprintCallable, Category="Hexagon World")
-    static bool ConnectToServer(UHexWorldServer* Server);
+    static bool ConnectToServer(UHexWorldClient* Server);
 
 	UFUNCTION(BlueprintCallable, Category="Hexagon World")
 	static FPixelPoint ConvertAxialToPixelCoords(const struct FAxialCoordinates &Ac, const int Size, const bool FlatTop = true) 

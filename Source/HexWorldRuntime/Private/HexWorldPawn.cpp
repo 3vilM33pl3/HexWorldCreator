@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "HexWorldPawn.h"
 #include "HexagonActor.h"
 #include "HexWorldBlueprintFunctionLibrary.h"
@@ -41,7 +38,6 @@ void AHexWorldPawn::InitialisePawn()
 	
 }
 
-// Sets default values
 AHexWorldPawn::AHexWorldPawn()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -49,17 +45,15 @@ AHexWorldPawn::AHexWorldPawn()
 	
 }
 
-// Called when the game starts or when spawned
 void AHexWorldPawn::BeginPlay()
 {
 	const FVector Loc = GetActorLocation();
 	CurrentLocationInAxialCoords = UHexWorldBlueprintFunctionLibrary::ConvertPixelToAxialCoords(Loc.X, Loc.Y);
-	HexWorldServer = NewObject<UHexWorldServer>();
+	HexWorldServer = NewObject<UHexWorldClient>();
 	HexWorldServer->ConnectToBackend();
 	Super::BeginPlay();
 }
 
-// Called every frame
 void AHexWorldPawn::Tick(float DeltaTime)
 {
 	const FVector LocalMove = FVector(CurrentForwardSpeed * DeltaTime, 0.f, 0.f);
@@ -81,7 +75,7 @@ void AHexWorldPawn::Tick(float DeltaTime)
 			AHexagonActor* HexMesh = NewObject<AHexagonActor>();
 			HexMesh->TransformAndSpawn(*Hex);
 			AllTheHexagons.Push(HexMesh);
-			HexMesh->HexagonPlain->RegisterComponentWithWorld(GetWorld());
+			HexMesh->HexagonComponent->RegisterComponentWithWorld(GetWorld());
 			
 			// UStaticMesh* HexAsset = Cast<UStaticMesh>(StaticLoadObject( UStaticMesh::StaticClass(), nullptr, *FName("/HexWorldCreator/HexagonBase.HexagonBase").ToString() ));
 			//

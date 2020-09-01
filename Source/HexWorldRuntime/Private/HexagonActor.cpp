@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "HexagonActor.h"
 
 #include "CoreMinimal.h"
@@ -8,21 +5,21 @@
 #include "HexWorldBlueprintFunctionLibrary.h"
 #include "Interfaces/IPluginManager.h"
 
-// Sets default values
 AHexagonActor::AHexagonActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	HexagonPlain = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HexagonPlain"));
-	RootComponent = HexagonPlain;
+	HexagonComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HexagonPlain")); 
+	RootComponent = HexagonComponent;
 
-	HexMesh = Cast<UStaticMesh>(StaticLoadObject( UStaticMesh::StaticClass(), nullptr, *FName("/HexWorldCreator/HexagonBase.HexagonBase").ToString() ));
+	HexagonMeshCollection.Base = Cast<UStaticMesh>(StaticLoadObject( UStaticMesh::StaticClass(), nullptr, *FName("/HexWorldCreator/HexagonBase.HexagonBase").ToString() ));
 	// static ConstructorHelpers::FObjectFinder<UStaticMesh> HexMesh(TEXT("/HexWorldCreator/HexagonBase.HexagonBase"));
-	HexagonPlain->SetStaticMesh(HexMesh);
+	HexagonComponent->SetStaticMesh(HexagonMeshCollection.Base);
+
+	// TODO Set default values for the other meshed in the collection
 	
 }
 
-// Called when the game starts or when spawned
 void AHexagonActor::BeginPlay()
 {
 	Super::BeginPlay();
@@ -36,16 +33,16 @@ void AHexagonActor::Tick(float DeltaTime)
 
 }
 
-void AHexagonActor::TransformAndSpawn(FHexagonCoordinates Hex) 
+void AHexagonActor::TransformAndSpawn(FHexagonCoordinates HexCoord) const
 {
 
-	const FPixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(Hex.X, Hex.Z), 1500);
+	const FPixelPoint Px = UHexWorldBlueprintFunctionLibrary::ConvertAxialToPixelCoords(FAxialCoordinates(HexCoord.X, HexCoord.Z), 1500);
 	const FVector ObjectPosition(Px.X, Px.Y, 0);
 	const FRotator ObjectRotation(0, 0, 0); //in degrees
 	const FVector ObjectScale(1, 1, 1);
 	const FTransform ObjectTransform(ObjectRotation, ObjectPosition, ObjectScale);
 
-	HexagonPlain->SetRelativeTransform(ObjectTransform);
-	HexagonPlain->SetWorldTransform(ObjectTransform);
+	HexagonComponent->SetRelativeTransform(ObjectTransform);
+	HexagonComponent->SetWorldTransform(ObjectTransform);
 
 }

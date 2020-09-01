@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "HexWorldServer.h"
+#include "HexWorldClient.h"
 
 #include "FHexWorldRunnable.h"
 #include "hex_lib.h"
@@ -8,7 +8,7 @@
 #include "hex_com_state.h"
 #include "Misc/MessageDialog.h"
 
-bool UHexWorldServer::ConnectToBackend()
+bool UHexWorldClient::ConnectToBackend()
 {
     HexagonClient = new ::HexagonClient(std::string(TCHAR_TO_UTF8(*ServerAddress)));
 
@@ -26,7 +26,7 @@ bool UHexWorldServer::ConnectToBackend()
     }
 }
 
-TArray<FHexagonCoordinates> UHexWorldServer::GetHexagonRing(const FAxialCoordinates Center) const
+TArray<FHexagonCoordinates> UHexWorldClient::GetHexagonRing(const FAxialCoordinates Center) const
 {
 
     Hexagon* CenterHex = new Hexagon(Center.Q, - Center.Q - Center.R, Center.R);

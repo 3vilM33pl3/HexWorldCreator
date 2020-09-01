@@ -1,9 +1,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Camera/CameraComponent.h"
 #include "GameFramework/Actor.h"
 #include "HexagonActor.generated.h"
 
+class UCameraComponent;
 USTRUCT(Blueprintable)
 struct FHexagonCoordinates {
 
@@ -37,6 +39,27 @@ struct FAxialCoordinates {
 };
 
 USTRUCT(BlueprintType)
+struct FHexagon
+{
+	GENERATED_USTRUCT_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Hexagon)
+	UStaticMesh* Base;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Hexagon)
+	UStaticMesh* Foundation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Hexagon)
+	TArray<UStaticMesh*> StaticDecoration;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Hexagon)
+	TArray<USkeletalMesh*> DynamicDecoration;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Hexagon)
+	UCameraComponent* TopCamera;
+};
+
+USTRUCT(BlueprintType)
 struct FPixelPoint {
 
 	GENERATED_USTRUCT_BODY()
@@ -58,26 +81,23 @@ class HEXWORLDRUNTIME_API AHexagonActor final : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AHexagonActor();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY()
-	UStaticMeshComponent* HexagonPlain;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Hexagon)
+	FHexagon HexagonMeshCollection;
 
 	UPROPERTY()
-	UStaticMesh* HexMesh;
-
+	UStaticMeshComponent* HexagonComponent;
+	
 	UFUNCTION(BlueprintCallable, Category="HexWorld")
-	void TransformAndSpawn(FHexagonCoordinates HexCoord);
+	void TransformAndSpawn(FHexagonCoordinates HexCoord) const;
 
 private:
 };

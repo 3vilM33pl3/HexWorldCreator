@@ -24,8 +24,8 @@ void FHexWorldEditorModule::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 
-	hexagonClient = new HexagonClient("hexcloud-j6feiuh7aa-ue.a.run.app:443");
-	auto status = hexagonClient->ConnectToServer();
+	MHexagonClient = new HexagonClient("hexcloud-j6feiuh7aa-ue.a.run.app:443");
+	auto status = MHexagonClient->ConnectToServer();
 
 	if(status != HEXWORLD_CONNECTION_READY)
 	{
@@ -64,10 +64,10 @@ void FHexWorldEditorModule::ShutdownModule()
 
 void FHexWorldEditorModule::PluginButtonClicked()
 {
-	auto connectionState = hexagonClient->GetConnectionState();
+	auto connectionState = MHexagonClient->GetConnectionState();
 	if(connectionState == hw_conn_state::HEXWORLD_CONNECTION_READY || connectionState == hw_conn_state::HEXWORLD_CONNECTION_IDLE)
 	{
-		auto result = hexagonClient->GetHexagonRing(new Hexagon(0, 0, 0), 2);
+		auto result = MHexagonClient->GetHexagonRing(new Hexagon(0, 0, 0), 2);
 		std::ostringstream resultStream;
 		
 		for(auto hex: result) {
@@ -140,7 +140,7 @@ void FHexWorldEditorModule::PlaceHexagons(FHexagonCoordinates* hex) const
 
 
 	const FVector ObjectPosition(px.X, px.Y, 0);
-	const FRotator ObjectRotation(0, 90, 0); //in degrees
+	const FRotator ObjectRotation(0, 0, 0); //in degrees
 	const FVector ObjectScale(1, 1, 1);
 	const FTransform ObjectTransform(ObjectRotation, ObjectPosition, ObjectScale);
 

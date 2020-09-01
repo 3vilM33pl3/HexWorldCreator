@@ -12,7 +12,6 @@ class HexagonAssetActions : public FAssetTypeActions_Base
 public:
 	HexagonAssetActions(const TSharedRef<ISlateStyle>& InStyle);
 
-
 	virtual FText GetName() const override;
 	virtual UClass* GetSupportedClass() const override;
 	virtual FColor GetTypeColor() const override;

@@ -9,17 +9,17 @@
 
 
 
-#include "HexWorldServer.generated.h"
+#include "HexWorldClient.generated.h"
 /**
  * 
  */
 UCLASS(BlueprintType)
-class HEXWORLDRUNTIME_API UHexWorldServer final : public UObject
+class HEXWORLDRUNTIME_API UHexWorldClient final : public UObject
 {
 	GENERATED_BODY()
 
 	public:
-	UHexWorldServer()
+	UHexWorldClient()
 	{
 		
 	};
