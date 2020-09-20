@@ -18,6 +18,8 @@ class UHexagonActorFactory : public UActorFactory
 	static const FName HexagonCanalSplit;
 
 public:
+
+	UHexagonActorFactory() {};
 	explicit UHexagonActorFactory(UActorFactory&& ActorFactory);	
 	
 };

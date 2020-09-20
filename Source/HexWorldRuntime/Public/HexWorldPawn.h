@@ -39,14 +39,12 @@ public:
 	UPROPERTY(Category=HexWorld, BlueprintReadWrite, EditAnywhere)
 	FString ServerAddress;
 	
-	UPROPERTY(Category = Camera, BlueprintReadWrite, EditAnywhere)
-	float SpringArmLength = -440.0f;
-
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
 
 	UPROPERTY(BlueprintReadOnly)
 	UHexWorldClient* HexWorldServer;
@@ -61,9 +59,15 @@ public:
 	/** Returns Camera subobject **/
 	FORCEINLINE class UCameraComponent* GetCamera() const { return Camera; }
 
-	private:
+private:
 	FAxialCoordinates CurrentLocationInAxialCoords;
 	TArray<AHexagonActor*> AllTheHexagons{};
 
-	
+	void CameraZoomForward();
+	void CameraZoomBack();
+	void CameraZoomStop();
+
+	bool bZoomForward = false;
+	bool bZoomBack = false; 
+
 };
